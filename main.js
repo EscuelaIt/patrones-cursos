@@ -16,8 +16,11 @@ do {
       if(mediaType == 1) {
         school.teach(training, new OnlineMedia());
       }
-      if(mediaType == 2) {
+      else if(mediaType == 2) {
         school.teach(training, new OfflineMedia());
+      }
+      else {
+        console.writeln ('Error: Tipo de enseñanza no existente...')
       }
     } while(mediaType != 1 && mediaType != 2)
   }
