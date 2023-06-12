@@ -1,0 +1,26 @@
+@startuml
+
+class School
+class Teacher
+class Course
+School -down-> "n" Course
+School -down-> "n" Teacher
+
+class Media
+class OfflineMedia
+class OnlineMedia
+Media <|-down- OnlineMedia
+Media <|-down- OfflineMedia
+School .> Media
+
+Teacher .down.> Media
+
+class StudyPlan
+School .down.> StudyPlan
+StudyPlan -> "n" Course
+
+Training <|-down- Course
+Training <|-down- StudyPlan
+
+Teacher -down-> Training
+@enduml
