@@ -7,7 +7,7 @@ class StudyPlan extends Training {
   }
 
   addCourse(course) {
-    this.courses.push(course);
+      this.courses.push(course);
   }
 
   trainingTitle() {

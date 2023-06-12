@@ -13,16 +13,16 @@ class School {
 
   createTeachers() {
     this.teachers = [];
-    teachers.forEach( teacher => this.teachers.push(new Teacher(teacher)) );
+    teachers.forEach(teacher => this.teachers.push(new Teacher(teacher)));
   }
 
   createCourses() {
     this.courses = [];
-    courses.forEach( course => this.courses.push(new Course(course)) );
+    courses.forEach(course => this.courses.push(new Course(course)));
   }
 
   showCourses() {
-    this.courses.forEach( (course, index) => console.writeln(`[${index + 1}]: ${course.title}`));
+    this.courses.forEach((course, index) => console.writeln(`[${index + 1}]: ${course.title}`));
   }
 
   teach(training, media) {
@@ -40,10 +40,16 @@ class School {
     let courseId;
     do {
       courseId = console.readNumber('¿Qué curso quieres asignar al plan? (0 para terminar)')
-      if(this.existsCourseId(courseId - 1) && courseId != 0) {
-        studyPlan.addCourse(this.courses[courseId - 1]);
+      if (courseId != 0) {
+        if (this.existsCourseId(courseId-1) && !studyPlan.courses.includes(this.courses[courseId-1])) {
+          studyPlan.addCourse(this.courses[courseId-1]);
+        }
+        else {
+          console.writeln('Error: No existe ese identificador de curso o ya está incluido en el plan...')
+        }
       }
-    } while(courseId != 0)
+
+    } while (courseId != 0)
     return studyPlan;
   }
 
@@ -54,11 +60,11 @@ class School {
   createTraining() {
     this.showCourses();
     let courseId = console.readNumber('Qué curso quieres hacer? (0 para salir, cualquier otro numero para hacer un plan)');
-    if(courseId == 0) {
+    if (courseId == 0) {
       return null;
     }
     let training;
-    if(this.existsCourseId(courseId - 1)) {
+    if (this.existsCourseId(courseId - 1)) {
       training = this.getCourse(courseId - 1);
     } else {
       training = this.createStudyPlan();
