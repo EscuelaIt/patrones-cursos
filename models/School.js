@@ -3,12 +3,46 @@ const { teachers, courses } = require('../data');
 const { Teacher } = require('./Teacher');
 const { Course } = require('./Course');
 const { StudyPlan } = require('./StudyPlan');
+const { OnlineMedia } = require('./OnlineMedia');
+const { OfflineMedia } = require('./OfflineMedia');
 
 class School {
   constructor() {
     this.createTeachers();
     this.createCourses();
     this.currentTeacherId = 0;
+    this.training = null;
+  }
+
+  train() {
+    this.training = this.createTraining();
+    if (this.training) {
+      let mediaType;
+      do {
+        mediaType = console.readNumber('¿lo quires online (1) u offline (2)?');
+        if (mediaType == 1) {
+          this.teach(this.training, new OnlineMedia());
+        }
+        if (mediaType == 2) {
+          this.teach(this.training, new OfflineMedia());
+        }
+      } while (mediaType != 1 && mediaType != 2)
+    }
+  }
+
+  createTraining() {
+    this.showCourses();
+    let courseId = console.readNumber('Qué curso quieres hacer? (0 para salir, cualquier otro numero para hacer un plan)');
+    if (courseId == 0) {
+      return null;
+    }
+    let training;
+    if (this.existsCourseId(courseId - 1)) {
+      training = this.getCourse(courseId - 1);
+    } else {
+      training = this.createStudyPlan();
+    }
+    return training;
   }
 
   createTeachers() {
@@ -51,19 +85,8 @@ class School {
     return this.courses[courseId];
   }
 
-  createTraining() {
-    this.showCourses();
-    let courseId = console.readNumber('Qué curso quieres hacer? (0 para salir, cualquier otro numero para hacer un plan)');
-    if(courseId == 0) {
-      return null;
-    }
-    let training;
-    if(this.existsCourseId(courseId - 1)) {
-      training = this.getCourse(courseId - 1);
-    } else {
-      training = this.createStudyPlan();
-    }
-    return training;
+  shouldContine() {
+    return this.training ? true : false;
   }
 }
 
